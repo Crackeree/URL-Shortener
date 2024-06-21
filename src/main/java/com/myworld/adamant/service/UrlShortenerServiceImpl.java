@@ -5,17 +5,17 @@ import org.springframework.stereotype.Service;
 
 @Service
 @Slf4j
-public class CryptoServiceImpl implements CryptoService {
+public class UrlShortenerServiceImpl implements UrlShortenerService {
 
     private final CryptoOperation cryptoOperation;
 
-    public CryptoServiceImpl(CryptoOperation cryptoOperation) {
+    public UrlShortenerServiceImpl(CryptoOperation cryptoOperation) {
         this.cryptoOperation = cryptoOperation;
     }
 
     @Override
-    public String hash(String plainText) {
+    public String shortenUrl(String url) {
 
-        return cryptoOperation.hash(plainText);
+        return cryptoOperation.hash(url);
     }
 }

@@ -1,6 +1,6 @@
 package com.myworld.adamant.controller;
 
-import com.myworld.adamant.service.UniqueIdGenerationService;
+import com.myworld.adamant.core.service.UniqueIdGenerationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;

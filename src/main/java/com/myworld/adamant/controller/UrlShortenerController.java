@@ -1,6 +1,6 @@
 package com.myworld.adamant.controller;
 
-import com.myworld.adamant.service.UrlShortenerService;
+import com.myworld.adamant.core.service.UrlShortenerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;

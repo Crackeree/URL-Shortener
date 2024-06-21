@@ -1,4 +1,4 @@
-package com.myworld.adamant.service;
+package com.myworld.adamant.core.service;
 
 public interface Digest {
 

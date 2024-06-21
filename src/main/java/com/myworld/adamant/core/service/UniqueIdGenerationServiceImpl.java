@@ -1,4 +1,4 @@
-package com.myworld.adamant.service;
+package com.myworld.adamant.core.service;
 
 import com.myworld.adamant.util.AppUtil;
 import com.myworld.adamant.util.Constant;

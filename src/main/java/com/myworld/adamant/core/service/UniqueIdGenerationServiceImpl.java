@@ -2,6 +2,7 @@ package com.myworld.adamant.core.service;
 
 import com.myworld.adamant.util.AppUtil;
 import com.myworld.adamant.util.Constant;
+import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
@@ -17,32 +18,30 @@ public class UniqueIdGenerationServiceImpl implements UniqueIdGenerationService 
         this.redisTemplate = redisTemplate;
     }
 
+    @PostConstruct
+    public void init() {
+
+        configureUniqueIdGenerationCounterKeyInRedis();
+        log.info("Unique ID generation key is configured in Redis with value 0");
+    }
+
     @Override
     public String generateUniqueId() {
 
         long counter = getCounter();
+        log.info("Unique ID generation counter: {}", counter);
 
-        log.info("Trace counter: {}", counter);
         return AppUtil.generateUniqueId(counter);
     }
 
     private Long getCounter() {
 
-        if (!hasKey()) {
-            log.info("No such key found in redis. Hence {} is being set with value 1", Constant.UNIQUE_ID_GENERATION_COUNTER_KEY);
-            return 1L;
-        }
-
-        log.info("Key {} found in redis.", Constant.UNIQUE_ID_GENERATION_COUNTER_KEY);
         return redisTemplate.opsForValue().increment(Constant.UNIQUE_ID_GENERATION_COUNTER_KEY, 1);
-
     }
 
-    private boolean hasKey() {
+    private void configureUniqueIdGenerationCounterKeyInRedis() {
 
-        Boolean isKeyAbsent = redisTemplate.opsForValue().setIfAbsent(Constant.UNIQUE_ID_GENERATION_COUNTER_KEY, 1);
-
-        return Boolean.FALSE.equals(isKeyAbsent);
+       redisTemplate.opsForValue().setIfAbsent(Constant.UNIQUE_ID_GENERATION_COUNTER_KEY, 0);
     }
 
 }

@@ -41,7 +41,7 @@ public class UniqueIdGenerationServiceImpl implements UniqueIdGenerationService 
 
     private void configureUniqueIdGenerationCounterKeyInRedis() {
 
-       redisTemplate.opsForValue().setIfAbsent(Constant.UNIQUE_ID_GENERATION_COUNTER_KEY, 0);
+        redisTemplate.opsForValue().setIfAbsent(Constant.UNIQUE_ID_GENERATION_COUNTER_KEY, 0);
     }
 
 }

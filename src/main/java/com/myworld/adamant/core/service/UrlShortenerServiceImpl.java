@@ -1,8 +1,9 @@
 package com.myworld.adamant.core.service;
 
 import com.myworld.adamant.core.dao.UrlShortenerDao;
-import com.myworld.adamant.core.domain.BaseEntity;
+import com.myworld.adamant.core.domain.UrlEntity;
 import com.myworld.adamant.core.service.dto.UrlUniqueIdentifier;
+import com.myworld.adamant.util.AppUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -27,18 +28,25 @@ public class UrlShortenerServiceImpl implements UrlShortenerService {
         String uniqueId = uniqueIdGenerationService
                 .generateAlphanumericUniqueId(URL_SHORTENER_UNIQUE_ID_GENERATION_COUNTER_KEY);
 
-        UrlUniqueIdentifier urlUniqueIdentifier = UrlUniqueIdentifier.from(uniqueId, url);
+        UrlUniqueIdentifier urlUniqueIdentifier = UrlUniqueIdentifier.from(uniqueId);
 
-        BaseEntity baseEntity = BaseEntity.from(urlUniqueIdentifier);
+        UrlEntity urlEntity = UrlEntity.from(urlUniqueIdentifier, url);
 
-        String tableName = (urlUniqueIdentifier.getTableKey().matches("^[0-9a-z]$")) ?
-                "_".concat(urlUniqueIdentifier.getTableKey()) : "__".concat(urlUniqueIdentifier.getTableKey());
-
+        String tableName = urlUniqueIdentifier.getTableName();
 
         log.info("Saving URL to Database: {}", tableName);
-        urlShortenerDao.save(tableName, baseEntity);
+        urlShortenerDao.save(tableName, urlEntity);
         log.info("Saved URL to Database: {}", tableName);
 
-        return uniqueId;
+        return AppUtil.buildShortUrl(uniqueId);
+    }
+
+    @Override
+    public String getUrl(String uniqueId) {
+
+        UrlUniqueIdentifier urlUniqueIdentifier = UrlUniqueIdentifier.from(uniqueId);
+        String tableName = urlUniqueIdentifier.getTableName();
+        UrlEntity urlEntity = urlShortenerDao.findByIdentifier(tableName, urlUniqueIdentifier);
+        return urlEntity.getUrl();
     }
 }

@@ -11,21 +11,24 @@ import lombok.NoArgsConstructor;
 @Builder
 public class UrlUniqueIdentifier {
 
-    private String url;
-
     private String tableKey;
 
     private String code;
 
     private String urlIn;
 
-    public static UrlUniqueIdentifier from(String uniqueId, String url) {
+    public static UrlUniqueIdentifier from(String uniqueId) {
 
         return UrlUniqueIdentifier.builder()
-                .url(url)
                 .tableKey(uniqueId.substring(0, 1))
                 .code(uniqueId.substring(1, 3))
                 .urlIn(uniqueId.substring(3))
                 .build();
+    }
+
+    public String getTableName() {
+
+        return (tableKey.matches("^[0-9a-z]$")) ?
+                "_".concat(tableKey) : "__".concat(tableKey);
     }
 }

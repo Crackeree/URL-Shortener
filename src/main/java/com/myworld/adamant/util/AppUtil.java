@@ -63,4 +63,10 @@ public class AppUtil {
 
         return StringUtils.leftPad(base62Number, 12, Constant.ALPHANUMERIC_UNIQUE_ID_RANDOMIZER.get("0"));
     }
+
+    public static String buildShortUrl(String uniqueId) {
+
+        return """
+                http://localhost:50023/adamant/""".concat(uniqueId);
+    }
 }

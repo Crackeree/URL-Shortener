@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 @Entity
-public class BaseEntity {
+public class UrlEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,10 +31,10 @@ public class BaseEntity {
     private String url;
 
 
-    public static BaseEntity from(UrlUniqueIdentifier urlUniqueIdentifier) {
+    public static UrlEntity from(UrlUniqueIdentifier urlUniqueIdentifier, String url) {
 
-        return BaseEntity.builder()
-                .url(urlUniqueIdentifier.getUrl())
+        return UrlEntity.builder()
+                .url(url)
                 .code(urlUniqueIdentifier.getCode())
                 .tableKey(urlUniqueIdentifier.getTableKey())
                 .urlIn(urlUniqueIdentifier.getUrlIn())

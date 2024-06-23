@@ -1,5 +1,6 @@
 package com.myworld.adamant.controller;
 
+import com.myworld.adamant.controller.payload.UrlShortenerRequest;
 import com.myworld.adamant.core.service.UrlShortenerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
@@ -16,11 +17,12 @@ public class UrlShortenerController {
         this.urlShortenerService = urlShortenerService;
     }
 
-    @PostMapping(value = "/{url}", produces = MediaType.APPLICATION_JSON_VALUE,
+    @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    public String shortenUrl(@PathVariable String url) {
+    public String shortenUrl(@RequestBody UrlShortenerRequest request) {
 
-        return urlShortenerService.shortenUrl(url);
+        log.info("URL: {}", request.getUrl());
+        return urlShortenerService.shortenUrl(request.getUrl());
     }
 }
 

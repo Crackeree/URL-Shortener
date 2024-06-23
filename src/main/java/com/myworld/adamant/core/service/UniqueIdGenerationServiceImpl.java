@@ -21,27 +21,42 @@ public class UniqueIdGenerationServiceImpl implements UniqueIdGenerationService 
     @PostConstruct
     public void init() {
 
-        configureUniqueIdGenerationCounterKeyInRedis();
-        log.info("Unique ID generation key is configured in Redis with value 0");
+        configureKeyForUniqueIdGenerationCounterInRedis(Constant.UNIQUE_ID_GENERATION_COUNTER_KEY);
+        configureKeyForUniqueIdGenerationCounterInRedis(Constant.URL_SHORTENER_UNIQUE_ID_GENERATION_COUNTER_KEY);
+        log.info("Unique ID generation keys are configured in Redis with value 0.");
     }
 
     @Override
-    public String generateUniqueId() {
+    public String generateNumericUniqueId(String uniqueIdGenerationCounterKey) {
 
-        long counter = getCounter();
-        log.info("Unique ID generation counter: {}", counter);
+        long counter = getCounter(uniqueIdGenerationCounterKey);
+        log.info("Unique ID generation counter for Key {} : {}", uniqueIdGenerationCounterKey, counter);
 
-        return AppUtil.generateUniqueId(counter);
+        return AppUtil.generateNumericUniqueId(counter);
     }
 
-    private Long getCounter() {
+    @Override
+    public String generateAlphanumericUniqueId(String uniqueIdGenerationCounterKey) {
 
-        return redisTemplate.opsForValue().increment(Constant.UNIQUE_ID_GENERATION_COUNTER_KEY, 1);
+        String numericUniqueId = generateNumericUniqueId(uniqueIdGenerationCounterKey);
+
+        log.info("Numeric unique id for Key {} : {}", uniqueIdGenerationCounterKey, numericUniqueId);
+
+        String alphanumericUniqueId = AppUtil.numericToAlphanumeric(numericUniqueId);
+
+        log.info("Alphanumeric unique id for Key {} : {}", uniqueIdGenerationCounterKey, alphanumericUniqueId);
+
+        return alphanumericUniqueId;
     }
 
-    private void configureUniqueIdGenerationCounterKeyInRedis() {
+    private Long getCounter(String uniqueIdGenerationCounterKey) {
 
-        redisTemplate.opsForValue().setIfAbsent(Constant.UNIQUE_ID_GENERATION_COUNTER_KEY, 0);
+        return redisTemplate.opsForValue().increment(uniqueIdGenerationCounterKey, 1);
+    }
+
+    private void configureKeyForUniqueIdGenerationCounterInRedis(String uniqueIdGenerationCounterKey) {
+
+        redisTemplate.opsForValue().setIfAbsent(uniqueIdGenerationCounterKey, 0);
     }
 
 }

@@ -1,6 +1,7 @@
 package com.myworld.adamant.controller;
 
 import com.myworld.adamant.core.service.UniqueIdGenerationService;
+import com.myworld.adamant.util.Constant;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,7 +24,7 @@ public class UniqueIdGenerationController {
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public String generateUniqueId() {
 
-        return uniqueIdGenerationService.generateUniqueId();
+        return uniqueIdGenerationService.generateNumericUniqueId(Constant.UNIQUE_ID_GENERATION_COUNTER_KEY);
     }
 }
 

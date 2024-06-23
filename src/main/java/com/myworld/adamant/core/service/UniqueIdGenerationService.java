@@ -2,5 +2,7 @@ package com.myworld.adamant.core.service;
 
 public interface UniqueIdGenerationService {
 
-    String generateUniqueId();
+    String generateNumericUniqueId(String uniqueIdGenerationCounterKey);
+
+    String generateAlphanumericUniqueId(String uniqueIdGenerationCounterKey);
 }

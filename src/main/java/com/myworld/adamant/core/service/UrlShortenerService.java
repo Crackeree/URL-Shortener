@@ -4,5 +4,5 @@ public interface UrlShortenerService {
 
     String shortenUrl(String url);
 
-    String getUrl(String uniqueId);
+    String getUrl(String id);
 }

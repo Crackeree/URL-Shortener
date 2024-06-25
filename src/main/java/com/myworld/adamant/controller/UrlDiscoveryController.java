@@ -20,10 +20,10 @@ public class UrlDiscoveryController {
     }
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public String getUrl(@PathVariable("id") String uniqueId) {
+    public String getUrl(@PathVariable("id") String id) {
 
-        log.info("ID: {}", uniqueId);
-        return urlShortenerService.getUrl(uniqueId);
+        log.info("ID: {}", id);
+        return urlShortenerService.getUrl(id);
     }
 }
 

@@ -1,10 +1,12 @@
 package com.myworld.adamant.core.dao;
 
-import com.myworld.adamant.core.domain.UrlEntity;
+import com.myworld.adamant.core.domain.UrlIdentifierEntity;
 
 public interface UrlShortenerDao {
 
-    UrlEntity save(UrlEntity urlEntity);
+    UrlIdentifierEntity save(UrlIdentifierEntity urlIdentifierEntity);
 
-    UrlEntity findById(String id);
+    UrlIdentifierEntity findById(String id);
+
+    UrlIdentifierEntity findEntityInUseById(String id);
 }

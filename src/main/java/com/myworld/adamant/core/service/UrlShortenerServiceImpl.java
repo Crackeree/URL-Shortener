@@ -1,7 +1,7 @@
 package com.myworld.adamant.core.service;
 
 import com.myworld.adamant.core.dao.UrlShortenerDao;
-import com.myworld.adamant.core.domain.UrlEntity;
+import com.myworld.adamant.core.domain.UrlIdentifierEntity;
 import com.myworld.adamant.util.AppUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -27,9 +27,9 @@ public class UrlShortenerServiceImpl implements UrlShortenerService {
         String uniqueId = uniqueIdGenerationService
                 .generateAlphanumericUniqueId(URL_SHORTENER_UNIQUE_ID_GENERATION_COUNTER_KEY);
 
-        UrlEntity urlEntity = UrlEntity.of(uniqueId, url);
+        UrlIdentifierEntity urlIdentifierEntity = UrlIdentifierEntity.of(uniqueId, url);
 
-        urlShortenerDao.save(urlEntity);
+        urlShortenerDao.save(urlIdentifierEntity);
 
         return AppUtil.buildShortUrl(uniqueId);
     }
@@ -37,6 +37,7 @@ public class UrlShortenerServiceImpl implements UrlShortenerService {
     @Override
     public String getUrl(String id) {
 
-        return urlShortenerDao.findById(id).getUrl();
+        return urlShortenerDao.findEntityInUseById(id)
+                .getUrl();
     }
 }

@@ -87,6 +87,4 @@ public interface Constant {
         put("60", "S");
         put("61", "p");
     }};
-
-
 }

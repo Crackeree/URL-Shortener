@@ -8,13 +8,15 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Entity
 @Table(name = "url_identifier")
-public class UrlIdentifierEntity {
+public class UrlIdentifierEntity extends BaseDomain {
 
     @Id
     @Column(name = "id", length = 12, nullable = false)
@@ -27,13 +29,16 @@ public class UrlIdentifierEntity {
     @Convert(converter = UrlIdentifierConverter.class)
     private UrlIdentifierStatus urlIdentifierStatus;
 
+    @Column(name = "EXPIRES_AT", nullable = false)
+    private LocalDateTime expiresAt;
 
-    public static UrlIdentifierEntity of(String uniqueId, String url) {
+    public static UrlIdentifierEntity of(String uniqueId, String url, int timeToLiveInSecs) {
 
         return UrlIdentifierEntity.builder()
                 .id(uniqueId)
                 .url(url)
                 .urlIdentifierStatus(UrlIdentifierStatus.IN_USE)
+                .expiresAt(LocalDateTime.now().plusSeconds(timeToLiveInSecs))
                 .build();
     }
 }

@@ -8,7 +8,7 @@ import java.util.Map;
 @Getter
 public enum UrlIdentifierStatus {
 
-    READY("00"),
+    RECYCLED("00"),
     IN_USE("01");
 
     private final String value;

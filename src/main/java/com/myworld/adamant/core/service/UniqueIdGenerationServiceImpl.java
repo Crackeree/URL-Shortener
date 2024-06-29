@@ -23,6 +23,7 @@ public class UniqueIdGenerationServiceImpl implements UniqueIdGenerationService 
 
         configureKeyForUniqueIdGenerationCounterInRedis(Constant.UNIQUE_ID_GENERATION_COUNTER_KEY);
         configureKeyForUniqueIdGenerationCounterInRedis(Constant.URL_SHORTENER_UNIQUE_ID_GENERATION_COUNTER_KEY);
+
         log.info("Unique ID generation keys are configured in Redis with value 0.");
     }
 
